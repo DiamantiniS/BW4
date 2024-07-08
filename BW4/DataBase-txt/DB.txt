@@ -1,0 +1,31 @@
+﻿
+CREATE TABLE Categorie (
+    CategoriaID INT PRIMARY KEY IDENTITY,
+    NomeCategoria NVARCHAR(50) NOT NULL,
+    Descrizione NVARCHAR(MAX)
+);
+
+CREATE TABLE CarrelloDettagli (
+    CarrelloDettaglioID INT PRIMARY KEY IDENTITY,
+    CarrelloID INT NOT NULL,
+    ProdottoID INT NOT NULL,
+    Quantita INT NOT NULL,
+    Prezzo DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (CarrelloID) REFERENCES Carrelli(CarrelloID),
+    FOREIGN KEY (ProdottoID) REFERENCES Prodotti(ProdottoID)
+);
+
+CREATE TABLE Carrelli (
+    CarrelloID INT PRIMARY KEY IDENTITY,
+    DataCreazione DATETIME DEFAULT GETDATE(),
+);
+
+CREATE TABLE Prodotti (
+    ProdottoID INT PRIMARY KEY IDENTITY,
+    NomeProdotto NVARCHAR(100) NOT NULL,
+    Descrizione NVARCHAR(MAX),
+    Prezzo DECIMAL(10, 2) NOT NULL,
+    QuantitaDisponibile INT NOT NULL,
+    CategoriaID INT,
+    DataAggiunta DATETIME DEFAULT GETDATE()
+);
