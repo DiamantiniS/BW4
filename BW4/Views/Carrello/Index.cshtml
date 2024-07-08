@@ -1,0 +1,44 @@
+﻿@model BW4.Models.Carrello
+
+@{
+    ViewData["Title"] = "Carrello";
+}
+
+<h2>Il tuo Carrello</h2>
+
+@if (Model.CarrelloDettagli.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Prodotto</th>
+                <th>Quantità</th>
+                <th>Prezzo</th>
+                <th>Totale</th>
+                <th>Azione</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dettaglio in Model.CarrelloDettagli)
+            {
+                <tr>
+                    <td>@dettaglio.ProdottoID</td>
+                    <td>@dettaglio.Quantita</td>
+                    <td>@dettaglio.Prezzo.ToString("C")</td>
+                    <td>@(dettaglio.Quantita * dettaglio.Prezzo).ToString("C")</td>
+                    <td>
+                        <form asp-action="Rimuovi" method="post">
+                            <input type="hidden" name="id" value="@dettaglio.CarrelloDettaglioID" />
+                            <button type="submit">Rimuovi</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Il carrello è vuoto.</p>
+}
+
