@@ -72,6 +72,32 @@ namespace BW4_progetto.Services
             }
         }
 
+        public void UpdateCartItem(int cartItemId, int quantity)
+        {
+            using (var connection = _databaseService.GetConnection())
+            {
+                connection.Execute(
+                    "UPDATE CartItems SET Quantity = @Quantity WHERE CartItemId = @CartItemId",
+                    new { Quantity = quantity, CartItemId = cartItemId });
+            }
+        }
+
+        public void RemoveFromCart(int cartItemId)
+        {
+            using (var connection = _databaseService.GetConnection())
+            {
+                connection.Execute("DELETE FROM CartItems WHERE CartItemId = @CartItemId", new { CartItemId = cartItemId });
+            }
+        }
+
+        public void ClearCart(int cartId)
+        {
+            using (var connection = _databaseService.GetConnection())
+            {
+                connection.Execute("DELETE FROM CartItems WHERE CartId = @CartId", new { CartId = cartId });
+            }
+        }
+
         public Cart GetCart()
         {
             using (var connection = _databaseService.GetConnection())

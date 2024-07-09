@@ -3,6 +3,11 @@
 <h1>Your Cart</h1>
 @if (Model.Items != null && Model.Items.Count > 0)
 {
+    <form asp-action="ClearCart" method="post">
+        <input type="hidden" name="cartId" value="@Model.CartId" />
+        <button type="submit" class="btn btn-danger">Clear Cart</button>
+    </form>
+
     <table class="table">
         <thead>
             <tr>
@@ -10,6 +15,7 @@
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Total</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -17,9 +23,21 @@
             {
                 <tr>
                     <td>@item.Product.Name</td>
-                    <td>@item.Quantity</td>
+                    <td>
+                        <form asp-action="UpdateCartItem" method="post" class="form-inline">
+                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" />
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </td>
                     <td>@item.Product.Price.ToString("C")</td>
                     <td>@(item.Quantity * item.Product.Price).ToString("C")</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" method="post" class="form-inline">
+                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
