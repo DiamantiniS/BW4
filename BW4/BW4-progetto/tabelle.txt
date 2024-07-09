@@ -1,3 +1,5 @@
+localhost\sqlexpress.ECommerceDB.dbo
+
 CREATE TABLE [dbo].[CartItems] (
     [CartItemId] INT IDENTITY (1, 1) NOT NULL,
     [CartId]     INT NULL,
