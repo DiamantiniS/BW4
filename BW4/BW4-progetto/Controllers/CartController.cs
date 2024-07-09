@@ -16,6 +16,10 @@ namespace BW4_progetto.Controllers
         public IActionResult Index()
         {
             var cart = _cartService.GetCart();
+            if (cart == null)
+            {
+                return View(new Cart { Items = new List<CartItem>() });
+            }
             return View(cart);
         }
     }

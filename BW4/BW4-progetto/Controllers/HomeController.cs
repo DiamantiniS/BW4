@@ -24,6 +24,10 @@ namespace BW4_progetto.Controllers
         public IActionResult Details(int id)
         {
             var product = _productService.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
             return View(product);
         }
 

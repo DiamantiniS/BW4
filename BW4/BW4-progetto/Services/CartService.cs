@@ -85,6 +85,15 @@ namespace BW4_progetto.Services
                         (ci, p) => { ci.Product = p; return ci; },
                         new { CartId = cart.CartId },
                         splitOn: "ProductId").ToList();
+
+                    if (cart.Items == null)
+                    {
+                        cart.Items = new List<CartItem>();
+                    }
+                }
+                else
+                {
+                    cart = new Cart { Items = new List<CartItem>() };
                 }
 
                 return cart;
