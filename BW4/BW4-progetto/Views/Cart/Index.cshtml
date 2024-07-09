@@ -1,0 +1,27 @@
+﻿@model BW4_progetto.Models.Cart
+
+<h1>Your Cart</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Price.ToString("C")</td>
+                <td>@(item.Quantity * item.Product.Price).ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <strong>Total:</strong> @Model.Items.Sum(i => i.Quantity * i.Product.Price).ToString("C")
+</div>

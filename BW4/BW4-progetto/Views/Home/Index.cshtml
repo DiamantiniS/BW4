@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BW4_progetto.Models.Product>
+
+@foreach (var product in Model)
+{
+    <div>
+        <img src="@product.ImageUrl" alt="@product.Name" />
+        <h2>@product.Name</h2>
+        <p>@product.Price.ToString("C")</p>
+        <a href="@Url.Action("Details", "Home", new { id = product.ProductId })">View Details</a>
+    </div>
+}

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<BW4_progetto.Models.Product>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Admin", new { id = product.ProductId })">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Create", "Admin")">Add New Product</a>
