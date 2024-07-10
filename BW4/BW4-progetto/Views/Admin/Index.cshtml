@@ -1,24 +1,62 @@
 ﻿@model IEnumerable<BW4_progetto.Models.Product>
 
-<table>
+@{
+    ViewData["Title"] = "Admin - Products";
+}
+
+<h2>Admin - Products</h2>
+
+<table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Actions</th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Price)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model)
+        @foreach (var item in Model)
         {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price.ToString("C")</td>
+            <tr id="product-@item.ProductId">
                 <td>
-                    <a href="@Url.Action("Edit", "Admin", new { id = product.ProductId })">Edit</a>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-primary">Edit</a>
+                    <button class="btn btn-danger" onclick="deleteProduct(@item.ProductId)">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a href="@Url.Action("Create", "Admin")">Add New Product</a>
+
+<a asp-action="Create" class="btn btn-success">Create New</a>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                $.ajax({
+                    url: '@Url.Action("DeleteProduct", "Admin")',
+                    type: 'POST',
+                    data: { id: productId },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#product-' + productId).remove();
+                        } else {
+                            alert('Error deleting product');
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+}

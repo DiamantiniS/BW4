@@ -2,24 +2,19 @@ using BW4_progetto.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Aggiungi servizi al contenitore.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CartService>();
 
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    options.Secure = CookieSecurePolicy.Always;
-    options.MinimumSameSitePolicy = SameSiteMode.Strict;
-});
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configura il middleware della pipeline di richiesta HTTP.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    // Il valore predefinito di HSTS è 30 giorni. Puoi cambiare questo valore per scenari di produzione, vedere https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
