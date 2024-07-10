@@ -48,14 +48,26 @@ namespace BW4_progetto.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(int id, Product product)
         {
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 _productService.UpdateProduct(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(int id)
+        {
+            _productService.DeleteProduct(id);
+            return Json(new { success = true });
         }
     }
 }

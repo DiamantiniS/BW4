@@ -48,5 +48,13 @@ namespace BW4_progetto.Services
                 connection.Execute(sql, product);
             }
         }
+
+        public void DeleteProduct(int id)
+        {
+            using (var connection = _databaseService.GetConnection())
+            {
+                connection.Execute("DELETE FROM Products WHERE ProductId = @Id", new { Id = id });
+            }
+        }
     }
 }

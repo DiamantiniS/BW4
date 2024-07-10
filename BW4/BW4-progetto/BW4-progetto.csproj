@@ -8,9 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Admin\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
     <PackageReference Include="Microsoft.Data.SqlClient.SNI.runtime" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Admin\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Admin\Delete.cshtml" />
   </ItemGroup>
 
 </Project>
