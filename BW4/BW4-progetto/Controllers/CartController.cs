@@ -16,11 +16,11 @@ namespace BW4_progetto.Controllers
         public IActionResult Index()
         {
             var cart = _cartService.GetCart();
-            if (cart == null)
+            if (cart == null || cart.Items == null)
             {
-                return View(new Cart { Items = new List<CartItem>() });
+                cart = new Cart { Items = new List<CartItem>() };
             }
-            return View(cart);
+            return View(cart.Items);
         }
 
         [HttpPost]
@@ -30,22 +30,37 @@ namespace BW4_progetto.Controllers
             {
                 quantity = 1;
             }
-            _cartService.UpdateCartItem(cartItemId, quantity);
-            return RedirectToAction("Index");
+            var result = _cartService.UpdateCartItem(cartItemId, quantity);
+            return Json(new { success = result });
         }
 
         [HttpPost]
         public IActionResult RemoveFromCart(int cartItemId)
         {
             _cartService.RemoveFromCart(cartItemId);
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
 
         [HttpPost]
-        public IActionResult ClearCart(int cartId)
+        public IActionResult ClearCart()
         {
-            _cartService.ClearCart(cartId);
-            return RedirectToAction("Index");
+            _cartService.ClearCart();
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult AddToCart(int productId, int quantity)
+        {
+            _cartService.AddToCart(productId, quantity);
+            return Json(new { success = true });
+        }
+
+        [HttpGet]
+        public IActionResult GetCartCount()
+        {
+            var cart = _cartService.GetCart();
+            var count = cart?.Items?.Sum(i => i.Quantity) ?? 0;
+            return Json(new { count });
         }
     }
 }
