@@ -26,7 +26,6 @@ namespace BW4_progetto.Services
                 {
                     try
                     {
-                        // Check if a cart exists, otherwise create a new cart
                         var cartId = connection.QuerySingleOrDefault<int>(
                             "SELECT TOP 1 CartId FROM Carts ORDER BY CreatedDate DESC",
                             transaction: transaction);
@@ -38,7 +37,6 @@ namespace BW4_progetto.Services
                                 transaction: transaction);
                         }
 
-                        // Check if the item already exists in the cart
                         var existingItem = connection.QuerySingleOrDefault<CartItem>(
                             "SELECT * FROM CartItems WHERE CartId = @CartId AND ProductId = @ProductId",
                             new { CartId = cartId, ProductId = productId },
@@ -46,7 +44,6 @@ namespace BW4_progetto.Services
 
                         if (existingItem != null)
                         {
-                            // Update the quantity of the existing item
                             connection.Execute(
                                 "UPDATE CartItems SET Quantity = Quantity + @Quantity WHERE CartItemId = @CartItemId",
                                 new { Quantity = quantity, CartItemId = existingItem.CartItemId },
@@ -54,7 +51,6 @@ namespace BW4_progetto.Services
                         }
                         else
                         {
-                            // Add a new item to the cart
                             connection.Execute(
                                 "INSERT INTO CartItems (CartId, ProductId, Quantity) VALUES (@CartId, @ProductId, @Quantity)",
                                 new { CartId = cartId, ProductId = productId, Quantity = quantity },
@@ -72,13 +68,14 @@ namespace BW4_progetto.Services
             }
         }
 
-        public void UpdateCartItem(int cartItemId, int quantity)
+        public bool UpdateCartItem(int cartItemId, int quantity)
         {
             using (var connection = _databaseService.GetConnection())
             {
-                connection.Execute(
+                var affectedRows = connection.Execute(
                     "UPDATE CartItems SET Quantity = @Quantity WHERE CartItemId = @CartItemId",
                     new { Quantity = quantity, CartItemId = cartItemId });
+                return affectedRows > 0;
             }
         }
 
@@ -90,11 +87,15 @@ namespace BW4_progetto.Services
             }
         }
 
-        public void ClearCart(int cartId)
+        public void ClearCart()
         {
             using (var connection = _databaseService.GetConnection())
             {
-                connection.Execute("DELETE FROM CartItems WHERE CartId = @CartId", new { CartId = cartId });
+                var cart = GetCart();
+                if (cart != null)
+                {
+                    connection.Execute("DELETE FROM CartItems WHERE CartId = @CartId", new { CartId = cart.CartId });
+                }
             }
         }
 

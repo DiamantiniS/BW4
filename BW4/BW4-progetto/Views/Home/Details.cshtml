@@ -1,14 +1,44 @@
 ﻿@model BW4_progetto.Models.Product
 
-<div>
-    <img src="@Model.ImageUrl" alt="@Model.Name" />
-    <h2>@Model.Name</h2>
-    <p>@Model.Description</p>
-    <p>@Model.Price.ToString("C")</p>
-    <form asp-action="AddToCart" method="post">
-        <input type="hidden" name="productId" value="@Model.ProductId" />
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" min="1" value="1" />
-        <button type="submit">Add to Cart</button>
-    </form>
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h2>@Model.Name</h2>
+            <p class="price">$@Model.Price</p>
+            <p>@Model.Description</p>
+            <div class="quantity">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control" style="width: 60px; display: inline;">
+            </div>
+            <button class="btn btn-primary" onclick="addToCart(@Model.ProductId)">Add to Cart</button>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        function addToCart(productId) {
+            var quantity = $('#quantity').val();
+            $.ajax({
+                url: '@Url.Action("AddToCart", "Cart")',
+                type: 'POST',
+                data: { productId: productId, quantity: quantity },
+                success: function (result) {
+                    if (result.success) {
+                        alert('Product added to cart');
+                        updateCartCounter();
+                    } else {
+                        alert('Error adding product to cart');
+                    }
+                }
+            });
+        }
+    </script>
+}
