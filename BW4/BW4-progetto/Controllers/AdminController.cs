@@ -66,8 +66,16 @@ namespace BW4_progetto.Controllers
         [HttpPost]
         public IActionResult DeleteProduct(int id)
         {
-            _productService.DeleteProduct(id);
-            return Json(new { success = true });
+            try
+            {
+                _productService.DeleteProduct(id);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Logga l'errore o gestiscilo in modo appropriato
+                return Json(new { success = false, error = ex.Message });
+            }
         }
     }
 }

@@ -50,6 +50,7 @@ namespace BW4_progetto.Services
         {
             using (var connection = _databaseService.GetConnection())
             {
+
                 connection.Execute("DELETE FROM Products WHERE ProductId = @Id", new { Id = id });
             }
         }
