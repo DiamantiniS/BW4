@@ -1,8 +1,0 @@
-﻿@model BW4_progetto.Models.Product
-
-<div class="product-card">
-    <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid">
-    <h2>@Model.Name</h2>
-    <p class="price">$@Model.Price</p>
-    <p><a class="btn btn-secondary" href="@Url.Action("Details", "Home", new { id = Model.ProductId })" role="button">View details »</a></p>
-</div>
