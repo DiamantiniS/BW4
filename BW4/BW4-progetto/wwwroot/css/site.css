@@ -387,3 +387,45 @@ body {
         background-color: #c82333;
         border-color: #bd2130;
     }
+
+    /*******************************************************/
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    padding-top: 20px;
+    background-color: #f8f9fa;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 0;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.main-content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+.jumbotron {
+    background: #007bff;
+    color: white;
+}

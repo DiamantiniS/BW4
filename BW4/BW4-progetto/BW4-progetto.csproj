@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Nuova cartella2\**" />
+    <Content Remove="Views\Nuova cartella2\**" />
+    <EmbeddedResource Remove="Views\Nuova cartella2\**" />
+    <None Remove="Views\Nuova cartella2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Admin\Delete.cshtml" />
   </ItemGroup>
 
