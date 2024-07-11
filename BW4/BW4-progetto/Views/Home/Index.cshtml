@@ -14,23 +14,25 @@
     <div class="row justify-content-center">
         @foreach (var product in Model)
         {
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="product-card">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 product-card">
                     <div class="image-container">
-                        <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid">
+                        <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid card-img-top">
                     </div>
-                    <a href="@Url.Action("Details", "Home", new { id = product.ProductId })" class="product-name">@product.Name</a>
-                    <div class="icons">
-                        <div class="icon">
-                            <i class="fas fa-heart"></i>
+                    <div class="card-body d-flex flex-column">
+                        <a href="@Url.Action("Details", "Home", new { id = product.ProductId })" class="product-name card-title">@product.Name</a>
+                        <div class="icons my-2">
+                            <div class="icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
                         </div>
-                        <div class="icon">
-                            <i class="fas fa-share-alt"></i>
-                        </div>
+                        <p class="price card-text mt-auto">$@product.Price</p>
+                        <button class="btn btn-primary btn-cart mt-2" onclick="showQuantityPopup(this, @product.ProductId, '@product.Name')">Add to Cart</button>
                     </div>
-                    <p class="price">$@product.Price</p>
-                    <button class="btn-cart" onclick="showQuantityPopup(this, @product.ProductId, '@product.Name')">Add to Cart</button>
-                    <div class="badge">New</div>
+                    <div class="badge bg-warning text-dark">New</div>
                 </div>
             </div>
         }
@@ -39,8 +41,12 @@
 
 <div id="quantity-popup" class="quantity-popup">
     <h5 id="popup-product-name"></h5>
-    <input type="number" id="popup-quantity" value="1" min="1">
-    <i class="fas fa-shopping-cart cart-icon" onclick="addToCartWithQuantity()"></i>
+    <div class="d-flex align-items-center">
+        <input type="number" id="popup-quantity" class="form-control me-2" value="1" min="1">
+        <button class="btn cart-icon" onclick="addToCartWithQuantity()">
+            <i class="fas fa-shopping-cart"></i> Add
+        </button>
+    </div>
 </div>
 
 @section Scripts {

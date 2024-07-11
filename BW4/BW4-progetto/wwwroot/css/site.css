@@ -14,7 +14,7 @@ body {
 .navbar-nav .nav-link {
     color: #fff;
 }
-/*sistemare footer*/
+
 .footer {
     background-color: #f8f9fa;
     padding: 20px 0;
@@ -24,21 +24,17 @@ body {
 .product-card {
     border: 1px solid #e5e5e5;
     border-radius: 8px;
-    padding: 1rem;
-    margin: 1rem;
     text-align: center;
-    max-width: 20vw; /* Larghezza massima della card in unità di viewport */
-    position: relative;
     background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 35vh; /* Altezza fissa della card in unità di viewport */
+    position: relative;
 }
 
     .product-card .image-container {
         width: 100%;
-        height: 15vh; /* Altezza fissa dell'immagine in unità di viewport */
+        height: 15vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -47,18 +43,18 @@ body {
     .product-card img {
         max-width: 100%;
         max-height: 100%;
-        object-fit: contain; /* Mantenere le proporzioni senza tagliare l'immagine */
+        object-fit: contain;
     }
 
-    .product-card h2 {
+    .product-card .card-title {
         font-size: 1.1rem;
         font-weight: 600;
         margin: 1rem 0;
         text-decoration: none;
-        flex-grow: 1; /* Riempi lo spazio disponibile */
+        flex-grow: 1;
     }
 
-    .product-card p.price {
+    .product-card .price {
         font-size: 1.2rem;
         color: #ff6f61;
         margin: 1rem 0;
@@ -127,28 +123,28 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
     .quantity-popup input {
         width: 3rem;
         text-align: center;
+        margin-bottom: 10px;
     }
 
     .quantity-popup .cart-icon {
         font-size: 1.5rem;
         color: #ff6f61;
         cursor: pointer;
+        display: flex;
+        align-items: center;
     }
 
         .quantity-popup .cart-icon:hover {
             color: #e65c50;
         }
-
-
-    .quantity-popup input {
-        width: 3rem;
-        text-align: center;
-    }
 
     .quantity-popup .add-to-cart-btn {
         background-color: #ff6f61;
