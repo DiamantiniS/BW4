@@ -30,4 +30,9 @@
     <None Include="Views\Admin\Delete.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Nuova cartella1\" />
+    <Folder Include="wwwroot\Nuova cartella\" />
+  </ItemGroup>
+
 </Project>

@@ -54,5 +54,7 @@ namespace BW4_progetto.Services
                 connection.Execute("DELETE FROM Products WHERE ProductId = @Id", new { Id = id });
             }
         }
+
+
     }
 }
