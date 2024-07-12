@@ -504,3 +504,23 @@ body {
     .colordetail:hover {
         background-color: #e65c50;
     }
+
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px); 
+    transition: all 0.3s ease; 
+}
+
+.carousel-item img:hover {
+    opacity: 0.8; 
+    transition: opacity 0.3s ease; 
+}
+
+
+.jumbotron-hover:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px); 
+    transition: all 0.3s ease; 
+    opacity: 0.9;
+}
