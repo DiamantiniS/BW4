@@ -1,8 +1,9 @@
 ﻿using BW4_progetto.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using Dapper;
+using System.Linq;
 
 namespace BW4_progetto.Services
 {
@@ -33,7 +34,8 @@ namespace BW4_progetto.Services
                         if (cartId == 0)
                         {
                             cartId = connection.QuerySingle<int>(
-                                "INSERT INTO Carts (CreatedDate) OUTPUT INSERTED.CartId VALUES (GETDATE())",
+                                "INSERT INTO Carts (CreatedDate) OUTPUT INSERTED.CartId VALUES (@CreatedDate)",
+                                new { CreatedDate = DateTime.Now },
                                 transaction: transaction);
                         }
 
@@ -59,14 +61,16 @@ namespace BW4_progetto.Services
 
                         transaction.Commit();
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw;
+                        // Logga l'eccezione o gestiscila in altro modo, se necessario
+                        throw new Exception("Errore durante l'aggiunta al carrello", ex);
                     }
                 }
             }
         }
+
 
         public bool UpdateCartItem(int cartItemId, int quantity)
         {
@@ -109,18 +113,22 @@ namespace BW4_progetto.Services
                 {
                     cart.Items = connection.Query<CartItem, Product, CartItem>(
                         "SELECT ci.*, p.* FROM CartItems ci INNER JOIN Products p ON ci.ProductId = p.ProductId WHERE ci.CartId = @CartId",
-                        (ci, p) => { ci.Product = p; return ci; },
+                        (ci, p) =>
+                        {
+                            ci.Product = p;
+                            return ci;
+                        },
                         new { CartId = cart.CartId },
                         splitOn: "ProductId").ToList();
 
                     if (cart.Items == null)
                     {
-                        cart.Items = new List<CartItem>();
+                        cart.Items = new List<CartItem>(); // Assicura che cart.Items non sia mai null
                     }
                 }
                 else
                 {
-                    cart = new Cart { Items = new List<CartItem>() };
+                    cart = new Cart { Items = new List<CartItem>() }; // Se cart è null, crea un nuovo carrello vuoto
                 }
 
                 return cart;
@@ -128,3 +136,4 @@ namespace BW4_progetto.Services
         }
     }
 }
+
