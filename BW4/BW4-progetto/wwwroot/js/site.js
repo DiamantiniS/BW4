@@ -20,7 +20,6 @@
         });
     });
 
-    // Funzione per aggiungere al carrello dal modale
     $(document).on('click', '#addToCartBtn', function () {
         var productId = $(this).data('product-id');
         var quantity = $('#modalQuantity').val();
@@ -41,7 +40,7 @@
         });
     });
 
-    // Funzione per aggiornare il contatore del carrello
+    
     function updateCartCounter() {
         $.ajax({
             url: '/Cart/GetCartCount',
@@ -60,6 +59,6 @@
         });
     }
 
-    // Inizializza il contatore del carrello quando il documento è pronto
+    
     updateCartCounter();
 });

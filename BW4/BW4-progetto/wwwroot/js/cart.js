@@ -1,12 +1,12 @@
 ﻿$(document).ready(function () {
     updateCartCounter();
 
-    // Gestisci il cambiamento della quantità
+   
     $('.quantity-input').on('change', function () {
         var cartItemId = $(this).data('id');
         var quantity = $(this).val();
         if (quantity < 1) {
-            quantity = 1;  // Imposta il minimo a 1
+            quantity = 1;  
             $(this).val(quantity);
         }
         updateCartItem(cartItemId, quantity);

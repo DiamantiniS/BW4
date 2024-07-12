@@ -27,7 +27,7 @@ namespace BW4_progetto.Controllers
 
             if (product == null)
             {
-                return NotFound(); // Ritorna 404 se il prodotto non viene trovato
+                return NotFound(); 
             }
 
             return PartialView("~/Views/product/Details.cshtml", product);

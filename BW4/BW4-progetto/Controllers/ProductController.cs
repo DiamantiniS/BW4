@@ -30,7 +30,7 @@ namespace BW4_progetto.Controllers
             if (product == null)
             {
                 _logger.LogWarning($"Product with id: {id} not found.");
-                return NotFound(); // Aggiungi questo controllo per evitare errori nulli
+                return NotFound(); 
             }
 
             _logger.LogInformation($"Product found: {product.Name}");

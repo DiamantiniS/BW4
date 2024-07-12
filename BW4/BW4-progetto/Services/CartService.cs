@@ -64,7 +64,7 @@ namespace BW4_progetto.Services
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        // Logga l'eccezione o gestiscila in altro modo, se necessario
+                        
                         throw new Exception("Errore durante l'aggiunta al carrello", ex);
                     }
                 }
@@ -123,12 +123,12 @@ namespace BW4_progetto.Services
 
                     if (cart.Items == null)
                     {
-                        cart.Items = new List<CartItem>(); // Assicura che cart.Items non sia mai null
+                        cart.Items = new List<CartItem>(); 
                     }
                 }
                 else
                 {
-                    cart = new Cart { Items = new List<CartItem>() }; // Se cart è null, crea un nuovo carrello vuoto
+                    cart = new Cart { Items = new List<CartItem>() }; 
                 }
 
                 return cart;
