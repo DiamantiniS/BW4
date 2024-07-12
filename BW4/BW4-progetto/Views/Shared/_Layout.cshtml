@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 </head>
 <body>
     <div class="d-flex">
@@ -101,8 +103,14 @@
             </footer>
         </div>
     </div>
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
-    <!-- Modale per i dettagli del prodotto -->
+
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -118,6 +126,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function openProductModal(productId, productName) {
+            $('#productModalLabel').text(productName);
+
+            $.ajax({
+                url: '@Url.Action("Details", "Home")',
+                type: 'GET',
+                data: { id: productId },
+                success: function (data) {
+                    $('#modalContent').html(data);
+                    $('#productModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+</body>
 
     @RenderSection("Scripts", required: false)
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
