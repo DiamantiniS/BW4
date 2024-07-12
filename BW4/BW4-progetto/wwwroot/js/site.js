@@ -16,10 +16,6 @@
                 console.log('Product details loaded successfully.');
                 $('#modalContent').html(data);
                 $('#productModal').modal('show');
-            },
-            error: function (xhr, status, error) {
-                console.log('Error loading product details:', error);
-                alert('Error loading product details');
             }
         });
     });
