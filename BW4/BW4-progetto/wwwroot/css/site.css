@@ -367,7 +367,7 @@ body {
     }
 
         .sidebar .sidebar-header img {
-            max-width: 100px; /* adatta questa misura secondo le tue necessità */
+            max-width: 200px; /* adatta questa misura secondo le tue necessità */
             border-radius: 50%;
         }
 
