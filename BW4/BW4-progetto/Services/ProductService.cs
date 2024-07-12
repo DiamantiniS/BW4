@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using BW4_progetto.Models;
 using Dapper;
-using BW4_progetto.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BW4_progetto.Services
 {
@@ -53,11 +52,36 @@ namespace BW4_progetto.Services
         {
             using (var connection = _databaseService.GetConnection())
             {
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        _logger.LogInformation("Deleting references in CartItems for Product ID {ProductId}", id);
+                        connection.Execute("DELETE FROM CartItems WHERE ProductId = @Id", new { Id = id }, transaction);
 
-                connection.Execute("DELETE FROM Products WHERE ProductId = @Id", new { Id = id });
+                        _logger.LogInformation("Deleting product with ID {ProductId}", id);
+                        connection.Execute("DELETE FROM Products WHERE ProductId = @Id", new { Id = id }, transaction);
+
+                        transaction.Commit();
+                        _logger.LogInformation("Successfully deleted product with ID {ProductId}", id);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error deleting product with ID {ProductId}", id);
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
 
-
+        public bool HasReferences(int productId)
+        {
+            using (var connection = _databaseService.GetConnection())
+            {
+                var count = connection.ExecuteScalar<int>("SELECT COUNT(1) FROM CartItems WHERE ProductId = @ProductId", new { ProductId = productId });
+                return count > 0;
+            }
+        }
     }
 }

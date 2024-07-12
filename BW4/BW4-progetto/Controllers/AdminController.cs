@@ -2,7 +2,7 @@
 using BW4_progetto.Models;
 using BW4_progetto.Services;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
+using System;
 
 namespace BW4_progetto.Controllers
 {
@@ -72,54 +72,21 @@ namespace BW4_progetto.Controllers
         [HttpPost]
         public IActionResult DeleteProduct(int id)
         {
-            _productService.DeleteProduct(id);
-             return Json(new { success = true });
-        }
-        /*
-        [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile imageFile)
-        {
-            if (imageFile == null || imageFile.Length == 0)
+            try
             {
-                // Gestione dell'errore: nessun file selezionato
-                return RedirectToAction("Error");
-            }
-
-            var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-            var uniqueFileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            // Verifica se la cartella uploads esiste, altrimenti creala
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            // Salva il file sul disco
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(stream);
-            }
-
-            // Salvataggio delle informazioni dell'immagine nel database
-            // var connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-
-            using (var connection = _databaseService.GetConnection())
-            {
-                await connection.OpenAsync();
-
-                var query = "INSERT INTO Images (FileName, FilePath) VALUES (@FileName, @FilePath)";
-
-                using (var command = new SqlCommand(query, connection))
+                if (_productService.HasReferences(id))
                 {
-                    command.Parameters.AddWithValue("@FileName", imageFile.FileName);
-                    command.Parameters.AddWithValue("@FilePath", filePath);
-                    await command.ExecuteNonQueryAsync();
+                    return Json(new { success = false, error = "Cannot delete product because it is referenced in cart items." });
                 }
-            }
 
-            return RedirectToAction("Index");
-        }*/
+                _productService.DeleteProduct(id);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting product.");
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
     }
 }
