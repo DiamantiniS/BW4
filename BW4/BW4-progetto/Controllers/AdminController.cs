@@ -1,28 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BW4_progetto.Models;
 using BW4_progetto.Services;
-using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace BW4_progetto.Controllers
 {
     public class AdminController : Controller
     {
         private readonly ProductService _productService;
-        private readonly DatabaseService _databaseService;
-        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ProductService productService, IWebHostEnvironment hostingEnvironment, DatabaseService databaseService, ILogger<AdminController> logger)
-        private readonly IConfiguration _configuration;
-
-
-        public AdminController(ProductService productService, IWebHostEnvironment hostingEnvironment, DatabaseService databaseService, IConfiguration configuration)
+        public AdminController(ProductService productService, ILogger<AdminController> logger)
         {
             _productService = productService;
-            _hostingEnvironment = hostingEnvironment;
-            _databaseService = databaseService;
             _logger = logger;
-            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -38,25 +30,13 @@ namespace BW4_progetto.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product, IFormFile image)
+        public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
                 _logger.LogInformation("Model state is valid.");
-
-                if (imageFile != null && imageFile.Length > 0)
-                {
-                    _logger.LogInformation("Image file provided.");
-                    var uniqueFileName = await UploadImage(imageFile);
-                    product.ImageUrl = "/uploads/" + uniqueFileName;
-                }
-                else
-                {
-                    _logger.LogInformation("No image file provided.");
-                }
-
                 _productService.AddProduct(product);
-                Upload(image);
+                _logger.LogInformation("Product added successfully.");
                 return RedirectToAction(nameof(Index));
             }
             _logger.LogWarning("Model state is not valid.");
@@ -85,7 +65,6 @@ namespace BW4_progetto.Controllers
             if (ModelState.IsValid)
             {
                 _productService.UpdateProduct(product);
-
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -104,51 +83,5 @@ namespace BW4_progetto.Controllers
                 return Json(new { success = false, error = ex.Message });
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile imageFile)
-        {
-            if (imageFile == null || imageFile.Length == 0)
-            {
-                // Gestione dell'errore: nessun file selezionato
-                return RedirectToAction("Error");
-            }
-
-            var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-            var uniqueFileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            // Verifica se la cartella uploads esiste, altrimenti creala
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            // Salva il file sul disco
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(stream);
-            }
-
-            // Salvataggio delle informazioni dell'immagine nel database
-            // var connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-
-            using (var connection = _databaseService.GetConnection())
-            {
-                await connection.OpenAsync();
-
-                var query = "INSERT INTO Images (FileName, FilePath) VALUES (@FileName, @FilePath)";
-
-                using (var command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@FileName", imageFile.FileName);
-                    command.Parameters.AddWithValue("@FilePath", filePath);
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
-
-            return RedirectToAction("Index");
-        }
-
     }
 }
