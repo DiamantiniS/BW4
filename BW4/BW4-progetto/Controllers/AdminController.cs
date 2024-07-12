@@ -34,12 +34,11 @@ namespace BW4_progetto.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product, IFormFile image)
+        public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
                 _productService.AddProduct(product);
-                Upload(image);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -67,7 +66,6 @@ namespace BW4_progetto.Controllers
             if (ModelState.IsValid)
             {
                 _productService.UpdateProduct(product);
-
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -76,17 +74,10 @@ namespace BW4_progetto.Controllers
         [HttpPost]
         public IActionResult DeleteProduct(int id)
         {
-            try
-            {
-                _productService.DeleteProduct(id);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                // Logga l'errore o gestiscilo in modo appropriato
-                return Json(new { success = false, error = ex.Message });
-            }
+            _productService.DeleteProduct(id);
+             return Json(new { success = true });
         }
+        /*
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile imageFile)
         {
@@ -131,7 +122,6 @@ namespace BW4_progetto.Controllers
             }
 
             return RedirectToAction("Index");
-        }
-
+        }*/
     }
 }
