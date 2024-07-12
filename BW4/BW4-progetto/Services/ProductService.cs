@@ -1,4 +1,7 @@
-﻿using Dapper;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using Dapper;
 using BW4_progetto.Models;
 
 namespace BW4_progetto.Services

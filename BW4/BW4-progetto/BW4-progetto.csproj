@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Nuova cartella2\**" />
+    <Content Remove="Views\Nuova cartella2\**" />
+    <EmbeddedResource Remove="Views\Nuova cartella2\**" />
+    <None Remove="Views\Nuova cartella2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Admin\Delete.cshtml" />
   </ItemGroup>
 
@@ -15,7 +22,6 @@
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
     <PackageReference Include="Microsoft.Data.SqlClient.SNI.runtime" Version="5.2.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <ItemGroup>
