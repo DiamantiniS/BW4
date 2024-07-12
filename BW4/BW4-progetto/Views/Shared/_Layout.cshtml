@@ -16,7 +16,7 @@
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <a href="/welcome"><img src="./asset/Far_Tech_logo_final_.png" alt="Logo"></a>
+                <img src="./asset/Far_Tech_logo_final_.png" alt="Logo">
             </div>
             <ul class="list-unstyled components">
                 <li class="active">
@@ -32,13 +32,13 @@
                     <a href="/cart"><i class="fas fa-shopping-basket"></i> Orders</a>
                 </li>
                 <li>
-                    <a href="/admin"><i class="fas fa-users"></i> Customers</a>
+                    <a href="#"><i class="fas fa-users"></i> Customers</a>
                 </li>
                 <li>
                     <a href="/aboutus"><i class="fas fa-chart-line"></i> About Us</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-cogs"></i> Settings</a>
+                    <a href="/admin"><i class="fas fa-cogs"></i> Settings</a>
                 </li>
             </ul>
         </nav>
@@ -54,7 +54,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/welcome"><i class="fas fa-home"></i></a>
+                                    <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
                                 </li>
                                 <li class="nav-item position-relative">
                                     <a class="nav-link" href="/Cart"><i class="fas fa-shopping-cart"></i></a>
@@ -145,12 +145,10 @@
             });
         }
     </script>
-</body>
 
     @RenderSection("Scripts", required: false)
-
-
-    
-   
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/cart.js"></script>
+    <script src="~/js/site.js"></script>
 </body>
 </html>

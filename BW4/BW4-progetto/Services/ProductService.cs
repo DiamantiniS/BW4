@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using BW4_progetto.Models;
 using Dapper;
-using BW4_progetto.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BW4_progetto.Services
 {
@@ -57,6 +56,7 @@ namespace BW4_progetto.Services
                 connection.Execute("DELETE FROM Products WHERE ProductId = @Id", new { Id = id });
             }
         }
+        
 
 
     }
