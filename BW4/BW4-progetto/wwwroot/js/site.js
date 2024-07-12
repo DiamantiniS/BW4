@@ -6,16 +6,19 @@
     $(document).on('click', '.product-link', function (e) {
         e.preventDefault();
         var productId = $(this).data('id');
+        console.log(`Product link clicked with id: ${productId}`);
 
         $.ajax({
             url: '/Product/Details',
             type: 'GET',
             data: { id: productId },
             success: function (data) {
+                console.log('Product details loaded successfully.');
                 $('#modalContent').html(data);
                 $('#productModal').modal('show');
             },
-            error: function () {
+            error: function (xhr, status, error) {
+                console.log('Error loading product details:', error);
                 alert('Error loading product details');
             }
         });
