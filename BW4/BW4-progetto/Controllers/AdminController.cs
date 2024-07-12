@@ -72,21 +72,8 @@ namespace BW4_progetto.Controllers
         [HttpPost]
         public IActionResult DeleteProduct(int id)
         {
-            try
-            {
-                if (_productService.HasReferences(id))
-                {
-                    return Json(new { success = false, error = "Cannot delete product because it is referenced in cart items." });
-                }
-
-                _productService.DeleteProduct(id);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deleting product.");
-                return Json(new { success = false, error = ex.Message });
-            }
+            _productService.DeleteProduct(id);
+            return Json(new { success = true });
         }
     }
 }
