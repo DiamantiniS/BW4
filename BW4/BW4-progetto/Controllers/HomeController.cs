@@ -24,11 +24,13 @@ namespace BW4_progetto.Controllers
         public IActionResult Details(int id)
         {
             var product = _productService.GetProductById(id);
+
             if (product == null)
             {
-                return NotFound();
+                return NotFound(); // Ritorna 404 se il prodotto non viene trovato
             }
-            return View(product);
+
+            return PartialView("~/Views/product/Details.cshtml", product);
         }
 
         [HttpPost]
