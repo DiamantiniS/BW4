@@ -1,4 +1,4 @@
-﻿@model BW4_progetto.Models.Product
+@model BW4_progetto.Models.Product
 
 @{
     ViewData["Title"] = "Create Product";
@@ -35,6 +35,12 @@
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>
 </form>
+
+<!--
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="imageFile" />
+    <button type="submit">Carica</button>
+</form>-->
 
 <div>
     <a asp-action="Index">Back to List</a>

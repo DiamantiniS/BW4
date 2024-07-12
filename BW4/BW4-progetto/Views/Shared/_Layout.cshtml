@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </head>
 <body>
     <div class="d-flex">
@@ -21,7 +21,7 @@
                     <a href="#"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-box-open"></i> Products</a>
+                    <a href="/home"><i class="fas fa-box-open"></i> Products</a>
                 </li>
                 <li>
                     <a href="#"><i class="fas fa-th"></i> Categories</a>
@@ -52,7 +52,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
+                                    <a class="nav-link" href="/welcome"><i class="fas fa-home"></i></a>
                                 </li>
                                 <li class="nav-item position-relative">
                                     <a class="nav-link" href="/Cart"><i class="fas fa-shopping-cart"></i></a>
@@ -101,6 +101,13 @@
             </footer>
         </div>
     </div>
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+  
 
     <!-- Modale per i dettagli del prodotto -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
@@ -120,7 +127,9 @@
     </div>
 
     @RenderSection("Scripts", required: false)
+ 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="~/js/site.js"></script>
+   
 </body>
 </html>
