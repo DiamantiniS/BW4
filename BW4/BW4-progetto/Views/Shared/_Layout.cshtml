@@ -90,7 +90,6 @@
                 </nav>
             </header>
             <div class="container" style="margin-top: 70px;">
-                <!-- Aggiungi un margin-top per evitare che il contenuto sia nascosto dietro la navbar -->
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>
@@ -100,6 +99,23 @@
                     <span>&copy; 2023 - YourProjectName</span>
                 </div>
             </footer>
+        </div>
+    </div>
+
+    <!-- Modale per i dettagli del prodotto -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent"></div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -316,67 +316,8 @@ body {
         background-color: #e65c50;
     }
 
-.cart-summary {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
 
-.coupon-input {
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 
-.btn-apply-coupon {
-    background-color: #ff6f61;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-    .btn-apply-coupon:hover {
-        background-color: #e65c50;
-    }
-
-/* Totali */
-.summary-totals {
-    margin-top: 20px;
-    font-size: 1.2rem;
-}
-
-.subtotal {
-    font-weight: bold;
-}
-
-.shipping-info {
-    color: gray;
-}
-
-.summary-buttons {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-}
-
-.btn-continue-shopping,
-.btn-update-cart {
-    background-color: #ff6f61;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-    .btn-continue-shopping:hover,
-    .btn-update-cart:hover {
-        background-color: #e65c50;
-    }
 
 .d-flex {
     display: flex;

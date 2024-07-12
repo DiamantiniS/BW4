@@ -1,9 +1,66 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });
+
+    $(document).on('click', '.product-link', function (e) {
+        e.preventDefault();
+        var productId = $(this).data('id');
+
+        $.ajax({
+            url: '/Product/Details',
+            type: 'GET',
+            data: { id: productId },
+            success: function (data) {
+                $('#modalContent').html(data);
+                $('#productModal').modal('show');
+            },
+            error: function () {
+                alert('Error loading product details');
+            }
+        });
+    });
+
+    // Funzione per aggiungere al carrello dal modale
+    $(document).on('click', '#addToCartBtn', function () {
+        var productId = $(this).data('product-id');
+        var quantity = $('#modalQuantity').val();
+
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: { productId: productId, quantity: quantity },
+            success: function (result) {
+                if (result.success) {
+                    alert('Product added to cart');
+                    $('#productModal').modal('hide');
+                    updateCartCounter();
+                } else {
+                    alert('Error adding product to cart');
+                }
+            }
+        });
+    });
+
+    // Funzione per aggiornare il contatore del carrello
+    function updateCartCounter() {
+        $.ajax({
+            url: '/Cart/GetCartCount',
+            method: 'GET',
+            success: function (data) {
+                var count = data.count;
+                if (count > 0) {
+                    $('#cart-counter').text(count).show();
+                } else {
+                    $('#cart-counter').hide();
+                }
+            },
+            error: function () {
+                $('#cart-counter').hide();
+            }
+        });
+    }
+
+    // Inizializza il contatore del carrello quando il documento è pronto
+    updateCartCounter();
 });

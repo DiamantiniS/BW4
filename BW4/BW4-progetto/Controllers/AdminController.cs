@@ -7,10 +7,16 @@ namespace BW4_progetto.Controllers
     public class AdminController : Controller
     {
         private readonly ProductService _productService;
+        private readonly DatabaseService _databaseService;
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ProductService productService)
+        public AdminController(ProductService productService, IWebHostEnvironment hostingEnvironment, DatabaseService databaseService, ILogger<AdminController> logger)
         {
             _productService = productService;
+            _hostingEnvironment = hostingEnvironment;
+            _databaseService = databaseService;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -26,13 +32,28 @@ namespace BW4_progetto.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("Model state is valid.");
+
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    _logger.LogInformation("Image file provided.");
+                    var uniqueFileName = await UploadImage(imageFile);
+                    product.ImageUrl = "/uploads/" + uniqueFileName;
+                }
+                else
+                {
+                    _logger.LogInformation("No image file provided.");
+                }
+
                 _productService.AddProduct(product);
+                _logger.LogInformation("Product added successfully.");
                 return RedirectToAction(nameof(Index));
             }
+            _logger.LogWarning("Model state is not valid.");
             return View(product);
         }
 
@@ -73,9 +94,27 @@ namespace BW4_progetto.Controllers
             }
             catch (Exception ex)
             {
-                // Logga l'errore o gestiscilo in modo appropriato
                 return Json(new { success = false, error = ex.Message });
             }
+        }
+
+        private async Task<string> UploadImage(IFormFile imageFile)
+        {
+            var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            return uniqueFileName;
         }
     }
 }
