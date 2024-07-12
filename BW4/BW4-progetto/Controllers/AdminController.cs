@@ -36,7 +36,6 @@ namespace BW4_progetto.Controllers
             {
                 _logger.LogInformation("Model state is valid.");
                 _productService.AddProduct(product);
-                _logger.LogInformation("Product added successfully.");
                 return RedirectToAction(nameof(Index));
             }
             _logger.LogWarning("Model state is not valid.");
@@ -73,15 +72,54 @@ namespace BW4_progetto.Controllers
         [HttpPost]
         public IActionResult DeleteProduct(int id)
         {
-            try
-            {
-                _productService.DeleteProduct(id);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, error = ex.Message });
-            }
+            _productService.DeleteProduct(id);
+             return Json(new { success = true });
         }
+        /*
+        [HttpPost]
+        public async Task<IActionResult> Upload(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                // Gestione dell'errore: nessun file selezionato
+                return RedirectToAction("Error");
+            }
+
+            var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // Verifica se la cartella uploads esiste, altrimenti creala
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Salva il file sul disco
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            // Salvataggio delle informazioni dell'immagine nel database
+            // var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+
+            using (var connection = _databaseService.GetConnection())
+            {
+                await connection.OpenAsync();
+
+                var query = "INSERT INTO Images (FileName, FilePath) VALUES (@FileName, @FilePath)";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@FileName", imageFile.FileName);
+                    command.Parameters.AddWithValue("@FilePath", filePath);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }*/
     }
 }

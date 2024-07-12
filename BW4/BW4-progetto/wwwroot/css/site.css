@@ -447,8 +447,9 @@ body {
 }
 
     .card img {
-        height: 200px;
-        object-fit: cover;
+     height: 450px;
+        
+     object-fit:cover;
     }
 
 .jumbotron {
@@ -482,4 +483,4 @@ body {
     .jumbotron img {
         width: 100%;
         height: 100%;
-    }
+    }   
